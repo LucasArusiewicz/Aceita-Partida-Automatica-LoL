@@ -12,6 +12,9 @@ from pyautogui import moveTo
 #Função que realiza o click do mouse
 from pyautogui import click
 
+#Função que retorna a posição do mouse
+from pyautogui import position
+
 #2° Módulo - Pillow/PIL (Python Imaging Library / Módulo de imagens para Python)
 #Módulo de processamento de imagem.
 
@@ -40,20 +43,24 @@ while True:
         #Definir coordenadas x e y, é onde o botão se encontra na tela
         x, y = local_do_botao
 
+        #Armazenar as coordenadas de x e y do mouse
+        mx, my = position()
+
         #Mover mouse até as coordenadas x e y na tela
         moveTo(x, y)
 
         #Realizar o click do mouse
         click()
 
-        moveTo(0, 0)
+        #Movimento o mouse para coordenada anterior
+        moveTo(mx, my)
 
         #Informa no terminal que partida foi aceita
-        #print("Partida Aceita!")
+        print("Partida Aceita!")
         
     #Caso não tenha encontrado o botão na tela, informar que ainda esta procurando partida    
-    #else:
-        #print("Procurando partida...")
+    else:
+        print("\rProcurando partida...")
 
     #Suspender a execução do programa durante 1 segundo
     sleep(1)
