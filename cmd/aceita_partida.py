@@ -27,40 +27,55 @@ from PIL import Image
 #Função que suspende a execução do por um determinado tempo(n segundos).
 from time import sleep
 
-#Carregar imagem do botão para mémoria.
-img_aceitar = Image.open('botao_aceitar.png')
+#4° Módulo - OS
+#Módulo relacionado ao SO.
+
+#Função que lista os arquivos em um diretório
+from os import listdir
+
+#Lista com caminho dos arquivos dentro da pasta 'imgs'
+caminho_imgs = list()
+for file in listdir("imgs"):
+    if file.endswith(".png"):
+        caminho_imgs.append('imgs/{}'.format(file))
+
+#Carregar imagens da pasta para mémoria.
+imgs = list()
+for img in caminho_imgs:
+    imgs.append(Image.open(img))
 
 #Criar condição de loop para poder verificar a tela constantemente
 #Enquanto o programa estiver aberto, sempre irá verificar
 while True:
 
-    #De fato verificar a tela e armazenar retorno na memória
-    local_do_botao = locateCenterOnScreen(img_aceitar, grayscale=False)
+    #Para cada imagem, verifica e clica
+    for img in imgs:
+        local_da_img = locateCenterOnScreen(img, grayscale=True)
 
-    #Caso tenho encontrado o botão na tela, executar as seguintes instruções
-    if local_do_botao != None:
+        #Caso tenho encontrado o botão na tela, executar as seguintes instruções
+        if local_da_img != None:
 
-        #Definir coordenadas x e y, é onde o botão se encontra na tela
-        x, y = local_do_botao
+            #Definir coordenadas x e y, é onde o botão se encontra na tela
+            x, y = local_da_img
 
-        #Armazenar as coordenadas de x e y do mouse
-        mx, my = position()
+            #Armazenar as coordenadas de x e y do mouse
+            mx, my = position()
 
-        #Mover mouse até as coordenadas x e y na tela
-        moveTo(x, y)
+            #Mover mouse até as coordenadas x e y na tela
+            moveTo(x, y)
 
-        #Realizar o click do mouse
-        click()
+            #Realizar o click do mouse
+            click()
 
-        #Movimento o mouse para coordenada anterior
-        moveTo(mx, my)
+            #Movimento o mouse para coordenada anterior
+            moveTo(mx, my)
 
-        #Informa no terminal que partida foi aceita
-        print("Partida Aceita!")
-        
-    #Caso não tenha encontrado o botão na tela, informar que ainda esta procurando partida    
-    else:
-        print("\rProcurando partida...")
+            #Informa no terminal que partida foi aceita
+            print("Partida Aceita!")
 
+        #Caso não tenha encontrado o botão na tela, informar que ainda esta procurando partida
+        else:
+            print("\rProcurando partida...")
+    print("============================")
     #Suspender a execução do programa durante 1 segundo
     sleep(1)
